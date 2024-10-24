@@ -1,0 +1,6 @@
+services:
+  app:
+    image: file_browser_api
+    build:
+      context: .
+      dockerfile: _docker/Dockerfile

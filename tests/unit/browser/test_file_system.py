@@ -80,3 +80,15 @@ async def test_list_directory() -> None:
 
     # then
     assert set(result) == expected_result
+
+
+@pytest.mark.parametrize(("filename", "expected_result"), [("_test_file.txt", True), ("_missing_file.txt", False)])
+async def test_does_file_exist(filename: str, expected_result: bool) -> None:
+    # given
+    file_path = _STUBS_DIRECTORY / filename
+
+    # when
+    result = await _file_system.does_file_exist(file_path)
+
+    # then
+    assert result == expected_result

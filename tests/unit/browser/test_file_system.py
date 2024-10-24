@@ -37,16 +37,18 @@ async def test_read_file__missing_file() -> None:
     # then
     assert "No such file or directory" in str(exception_info.value)
 
+
 @pytest.mark.parametrize("new_content", ["", "abc", "abc\ndef", "\0"])
 async def test_save_file(random_file_path: Path, new_content: str) -> None:
     # when
     await _file_system.save_file(random_file_path, new_content)
 
     # then
-    async with aiofiles.open(random_file_path, "r") as updated_file:
+    async with aiofiles.open(random_file_path) as updated_file:
         content = await updated_file.read()
 
     assert content == new_content
+
 
 async def test_delete_file(random_file_path: Path) -> None:
     # when
@@ -55,6 +57,7 @@ async def test_delete_file(random_file_path: Path) -> None:
     # then
     file_exists = await aiofiles.os.path.exists(random_file_path)
     assert not file_exists
+
 
 async def test_delete_file__missing_file() -> None:
     # given
@@ -66,6 +69,7 @@ async def test_delete_file__missing_file() -> None:
 
     # then
     assert "No such file or directory" in str(exception_info.value)
+
 
 async def test_list_directory() -> None:
     # given

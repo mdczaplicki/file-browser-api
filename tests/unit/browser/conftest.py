@@ -7,6 +7,7 @@ import pytest
 
 _STUBS_DIRECTORY = Path(__file__).parent.resolve() / "stubs"
 
+
 @pytest.fixture
 async def random_file_path() -> Path:
     random_name = str(random.randint(100, 999))

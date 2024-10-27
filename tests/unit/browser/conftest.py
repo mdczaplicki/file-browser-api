@@ -9,7 +9,7 @@ _STUBS_DIRECTORY = Path(__file__).parent.resolve() / "stubs"
 
 
 @pytest.fixture
-async def random_file_path() -> Path:
+async def random_file_path() -> Path:  # type: ignore[misc]
     random_name = str(random.randint(100, 999))
     file_path = _STUBS_DIRECTORY / random_name
     async with aiofiles.open(file_path, "w") as file:

@@ -461,6 +461,17 @@ anyio = ">=3.4.0,<5"
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7)", "pyyaml"]
 
 [[package]]
+name = "types-aiofiles"
+version = "24.1.0.20240626"
+description = "Typing stubs for aiofiles"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-aiofiles-24.1.0.20240626.tar.gz", hash = "sha256:48604663e24bc2d5038eac05ccc33e75799b0779e93e13d6a8f711ddc306ac08"},
+    {file = "types_aiofiles-24.1.0.20240626-py3-none-any.whl", hash = "sha256:7939eca4a8b4f9c6491b6e8ef160caee9a21d32e18534a57d5ed90aee47c66b4"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -492,4 +503,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.7"
-content-hash = "1b398e1dfa705f572c67a129a99d229ed22bec91696c5345a3a76e8d1e8e005d"
+content-hash = "d0dfec171a7f3a0362cdc382bc7dc4cdcbdc6b10ee773f4425fce64767747851"

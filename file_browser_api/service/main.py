@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from file_browser_api.browser.router import FILE_ROUTER, DIRECTORY_ROUTER
+from file_browser_api.browser.router import DIRECTORY_ROUTER, FILE_ROUTER
 
 app = FastAPI(
     title="File Browser API",

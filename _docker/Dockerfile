@@ -14,6 +14,8 @@ ENV PATH="/opt/poetry/bin:$PATH"
 
 RUN poetry config virtualenvs.path /opt/virtualenvs
 
+ADD _playground /opt/playground
+
 # Install project dependencies
 COPY pyproject.toml poetry.lock* ./
 RUN poetry install --no-root

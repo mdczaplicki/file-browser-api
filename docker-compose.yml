@@ -4,3 +4,14 @@ services:
     build:
       context: .
       dockerfile: _docker/Dockerfile
+    container_name: file_browser_api
+    command: "poetry run uvicorn --host=0.0.0.0 --reload --log-level=info file_browser_api.service.main:app"
+    ports:
+      - "8000:8000"
+    environment:
+      - FILE_BROWSER_API_MAIN_DIRECTORY
+    volumes:
+      - ./poetry.lock:/opt/file_browser_api/poetry.lock
+      - ./pyproject.toml:/opt/file_browser_api/pyproject.toml
+      - ./file_browser_api:/opt/file_browser_api/file_browser_api
+      - ./tests:/opt/file_browser_api/tests

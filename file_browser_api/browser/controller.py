@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from file_browser_api.browser import _file_system
-from file_browser_api.browser.error import FileNotFoundBrowserError
+from file_browser_api.browser.error import FileNotFoundBrowserError, NotADirectoryBrowserError
 
 
 async def read_file(file_path: Path) -> str:
@@ -31,5 +31,10 @@ async def create_file(file_path: Path, content: str) -> None:
 
 
 async def list_directory(directory_path: Path) -> list[str]:
-    directory_content = await _file_system.list_directory(directory_path)
+    try:
+        directory_content = await _file_system.list_directory(directory_path)
+    except FileNotFoundError as ex:
+        raise FileNotFoundBrowserError(directory_path) from ex
+    except NotADirectoryError as ex:
+        raise NotADirectoryBrowserError(directory_path) from ex
     return directory_content

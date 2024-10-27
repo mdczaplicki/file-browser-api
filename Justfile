@@ -22,5 +22,5 @@ check:
     docker exec -it file_browser_api poetry run mypy .
 
 format:
-    docker exec -it file_browser_api poetry run ruff check --fix
     docker exec -it file_browser_api poetry run ruff format
+    docker exec -it file_browser_api poetry run ruff check --fix

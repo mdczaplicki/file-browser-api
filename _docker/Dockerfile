@@ -1,5 +1,24 @@
 FROM python:3.12.7-bookworm
 
-RUN apt update -y
+WORKDIR /opt/file_browser_api
 
-COPY pyproject.toml poetry.lock
+RUN apt -y update  \
+    && apt -y upgrade \
+    && pip install --upgrade pip
+
+# Install & configure Poetry
+RUN python3 -m venv /opt/poetry \
+    && /opt/poetry/bin/pip install poetry==1.8.4 \
+    && /opt/poetry/bin/poetry --version
+ENV PATH="/opt/poetry/bin:$PATH"
+
+RUN poetry config virtualenvs.path /opt/virtualenvs
+
+# Install project dependencies
+COPY pyproject.toml poetry.lock* ./
+RUN poetry install --no-root
+
+COPY . .
+RUN poetry install --only-root
+
+CMD ["CMD must be overridden during container instantiation."]

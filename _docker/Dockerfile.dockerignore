@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# Copy everything below:
+!pyproject.toml
+!poetry.lock
+
+!file_browser_api
+!tests
+
+# poetry needs that file
+!README.md

@@ -14,7 +14,9 @@ ENV PATH="/opt/poetry/bin:$PATH"
 
 RUN poetry config virtualenvs.path /opt/virtualenvs
 
-ADD _playground /opt/playground
+# Copy playground files
+ARG FILE_BROWSER_API_MAIN_DIRECTORY
+ADD _playground $FILE_BROWSER_API_MAIN_DIRECTORY
 
 # Install project dependencies
 COPY pyproject.toml poetry.lock* ./

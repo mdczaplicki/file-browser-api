@@ -1,14 +1,11 @@
 from pathlib import Path
 
 from file_browser_api.browser import _file_system
-from file_browser_api.browser.error import FileNotFoundBrowserError, NotADirectoryBrowserError
+from file_browser_api.browser.error import FileNotFoundBrowserError
 
 
 async def read_file(file_path: Path) -> str:
-    try:
-        content = await _file_system.read_file(file_path)
-    except FileNotFoundError as ex:
-        raise FileNotFoundBrowserError(file_path) from ex
+    content = await _file_system.read_file(file_path)
     return content
 
 
@@ -20,10 +17,7 @@ async def update_file(file_path: Path, content: str) -> None:
 
 
 async def delete_file(file_path: Path) -> None:
-    try:
-        await _file_system.delete_file(file_path)
-    except FileNotFoundError as ex:
-        raise FileNotFoundBrowserError(file_path) from ex
+    await _file_system.delete_file(file_path)
 
 
 async def create_file(file_path: Path, content: str) -> None:
@@ -31,10 +25,5 @@ async def create_file(file_path: Path, content: str) -> None:
 
 
 async def list_directory(directory_path: Path) -> list[str]:
-    try:
-        directory_content = await _file_system.list_directory(directory_path)
-    except FileNotFoundError as ex:
-        raise FileNotFoundBrowserError(directory_path) from ex
-    except NotADirectoryError as ex:
-        raise NotADirectoryBrowserError(directory_path) from ex
+    directory_content = await _file_system.list_directory(directory_path)
     return directory_content

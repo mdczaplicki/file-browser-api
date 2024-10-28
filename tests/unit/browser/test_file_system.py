@@ -4,6 +4,7 @@ import aiofiles.os
 import pytest
 
 from file_browser_api.browser import _file_system
+from file_browser_api.browser.error import FileNotFoundBrowserError, NotADirectoryBrowserError
 
 _STUBS_DIRECTORY = Path(__file__).parent.resolve() / "stubs"
 
@@ -31,11 +32,11 @@ async def test_read_file__missing_file() -> None:
     file_path = _STUBS_DIRECTORY / "_missing_file.txt"
 
     # when
-    with pytest.raises(FileNotFoundError) as exception_info:
+    with pytest.raises(FileNotFoundBrowserError) as exception_info:
         await _file_system.read_file(file_path)
 
     # then
-    assert "No such file or directory" in str(exception_info.value)
+    assert str(file_path) in str(exception_info.value)
 
 
 @pytest.mark.parametrize("new_content", ["", "abc", "abc\ndef", "\0"])
@@ -64,11 +65,11 @@ async def test_delete_file__missing_file() -> None:
     file_path = _STUBS_DIRECTORY / "_missing_file.txt"
 
     # when
-    with pytest.raises(FileNotFoundError) as exception_info:
+    with pytest.raises(FileNotFoundBrowserError) as exception_info:
         await _file_system.delete_file(file_path)
 
     # then
-    assert "No such file or directory" in str(exception_info.value)
+    assert str(file_path) in str(exception_info.value)
 
 
 async def test_list_directory() -> None:
@@ -80,6 +81,18 @@ async def test_list_directory() -> None:
 
     # then
     assert set(result) == expected_result
+
+
+async def test_list_directory__not_a_directory() -> None:
+    # given
+    path = _STUBS_DIRECTORY / "_empty_file.txt"
+
+    # when
+    with pytest.raises(NotADirectoryBrowserError) as exception_info:
+        await _file_system.list_directory(path)
+
+    # then
+    assert str(path) in str(exception_info.value)
 
 
 @pytest.mark.parametrize(("filename", "expected_result"), [("_test_file.txt", True), ("_missing_file.txt", False)])

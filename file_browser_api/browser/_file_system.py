@@ -2,10 +2,15 @@ from pathlib import Path
 
 import aiofiles.os
 
+from file_browser_api.browser.error import FileNotFoundBrowserError, NotADirectoryBrowserError
+
 
 async def read_file(file_path: Path) -> str:
-    async with aiofiles.open(file_path) as file:
-        file_content = await file.read()
+    try:
+        async with aiofiles.open(file_path) as file:
+            file_content = await file.read()
+    except FileNotFoundError as ex:
+        raise FileNotFoundBrowserError(file_path) from ex
     return file_content
 
 
@@ -15,11 +20,19 @@ async def save_file(file_path: Path, content: str) -> None:
 
 
 async def delete_file(file_path: Path) -> None:
-    await aiofiles.os.remove(file_path)
+    try:
+        await aiofiles.os.remove(file_path)
+    except FileNotFoundError as ex:
+        raise FileNotFoundBrowserError(file_path) from ex
 
 
 async def list_directory(directory_path: Path) -> list[str]:
-    directory_content = await aiofiles.os.listdir(directory_path)
+    try:
+        directory_content = await aiofiles.os.listdir(directory_path)
+    except FileNotFoundError as ex:
+        raise FileNotFoundBrowserError(directory_path) from ex
+    except NotADirectoryError as ex:
+        raise NotADirectoryBrowserError(directory_path) from ex
     return directory_content
 
 

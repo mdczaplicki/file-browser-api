@@ -1,34 +1,48 @@
-build:
+#!/usr/bin/env sh
+
+build () {
     # Set up the environment
     docker compose build
+}
 
-up:
+up () {
     # Start the application
     docker compose up -d
+}
 
-down:
+down () {
     # Stop the application
     docker compose down
+}
 
-shell: up
+shell () {
     # Enter the container
+    up
     docker exec -it file_browser_api bash
+}
 
-test: up
+test () {
     # Run the tests
+    up
     docker exec -it file_browser_api poetry run pytest tests
+}
 
-lock: up
+lock () {
     # Lock dependencies
+    up
     docker exec -it file_browser_api poetry lock
+}
 
-check: up
+check () {
     # Lint the code
+    up
     docker exec -it file_browser_api poetry run ruff check
     docker exec -it file_browser_api poetry run ruff format --check
     docker exec -it file_browser_api poetry run mypy .
+}
 
-format: up
+format () {
     # Format the code
     docker exec -it file_browser_api poetry run ruff format
     docker exec -it file_browser_api poetry run ruff check --fix
+}
